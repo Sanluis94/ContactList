@@ -1,5 +1,6 @@
 package br.com.laaa.ContactList.Controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,8 +10,14 @@ import br.com.laaa.ContactList.service.PersonService;
 
 import java.util.List;
 
+/**
+ * REST controller responsible for handling HTTP requests for persons.
+ * Provides endpoints to manage persons and their associated contacts.
+ * Delegates business logic to PersonService.
+ */
 @RestController
-@RequestMapping("/api/persons")
+@RequestMapping("/api/people")
+@Tag(name = "Persons", description = "Endpoints for managing persons")
 public class PersonController {
 
     private final PersonService personService;
@@ -21,8 +28,9 @@ public class PersonController {
 
     @PostMapping
     @Operation(summary = "Create a new person")
-    public ResponseEntity<PersonDTO> createPerson(@RequestBody PersonDTO personDTO) {
-        return ResponseEntity.ok(personService.createPerson(personDTO));
+    public ResponseEntity<String> createPerson(@RequestBody PersonDTO personDTO) {
+        personService.createPerson(personDTO);
+        return ResponseEntity.ok("Person created successfully!");
     }
 
     @GetMapping("/{id}")
@@ -39,14 +47,15 @@ public class PersonController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Update a person by ID")
-    public ResponseEntity<PersonDTO> updatePerson(@PathVariable Long id, @RequestBody PersonDTO personDTO) {
-        return ResponseEntity.ok(personService.updatePerson(id, personDTO));
+    public ResponseEntity<String> updatePerson(@PathVariable Long id, @RequestBody PersonDTO personDTO) {
+        personService.updatePerson(id, personDTO);
+        return ResponseEntity.ok("Person updated successfully!");
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete a person by ID")
-    public ResponseEntity<Void> deletePerson(@PathVariable Long id) {
+    public ResponseEntity<String> deletePerson(@PathVariable Long id) {
         personService.deletePerson(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("Person deleted successfully!");
     }
 }

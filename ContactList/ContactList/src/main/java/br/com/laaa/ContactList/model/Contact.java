@@ -2,7 +2,8 @@ package br.com.laaa.ContactList.model;
 import jakarta.persistence.*;
 
 /**
- * Entity representing a Contact.
+ * Entity representing a contact.
+ * Contains details such as contact type and person association.
  */
 @Entity
 public class Contact {

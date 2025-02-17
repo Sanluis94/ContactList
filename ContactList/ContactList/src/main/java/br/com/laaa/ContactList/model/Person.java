@@ -4,6 +4,10 @@ package br.com.laaa.ContactList.model;
 import jakarta.persistence.*;
 import java.util.List;
 
+/**
+ * Entity representing a person.
+ * Stores personal details and a list of associated contacts.
+ */
 @Entity
 public class Person {
     @Id

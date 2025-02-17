@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 import br.com.laaa.ContactList.model.Contact;
 
 /**
- * Repository interface for managing Contact entities.
- * This interface extends JpaRepository, providing CRUD operations.
+ * Repository interface for managing Contact entity persistence.
+ * Extends JpaRepository to provide CRUD operations.
  */
 @Repository
 public interface ContactRepository extends JpaRepository<Contact, Long> {

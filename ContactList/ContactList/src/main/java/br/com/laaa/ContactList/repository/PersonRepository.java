@@ -6,9 +6,10 @@ import org.springframework.stereotype.Repository;
 import br.com.laaa.ContactList.model.Person;
 
 /**
- * Repository interface for managing Person entities.
- * This interface extends JpaRepository, providing CRUD operations.
+ * Repository interface for managing Person entity persistence.
+ * Extends JpaRepository to provide CRUD operations.
  */
+
 @Repository
 public interface PersonRepository extends JpaRepository<Person, Long> {
 }

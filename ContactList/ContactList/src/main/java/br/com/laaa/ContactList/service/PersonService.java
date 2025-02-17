@@ -10,6 +10,10 @@ import br.com.laaa.ContactList.repository.PersonRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Service responsible for managing people.
+ * Allows creating, listing, retrieving, updating, and deleting person records.
+ */
 @Service
 public class PersonService {
     private final PersonRepository personRepository;

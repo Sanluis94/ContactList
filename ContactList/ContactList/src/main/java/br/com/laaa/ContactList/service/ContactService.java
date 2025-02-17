@@ -15,6 +15,10 @@ import br.com.laaa.ContactList.repository.PersonRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Service responsible for managing contacts.
+ * Provides methods to create, retrieve, update, and delete contacts.
+ */
 @Service
 public class ContactService {
     
@@ -26,8 +30,8 @@ public class ContactService {
 
     @Autowired
     private ContactMapper contactMapper;
-
-    @Transactional
+    
+	@Transactional
     public ContactDTO createContact(ContactDTO contactDTO) {
         Person person = personRepository.findById(contactDTO.personId())
                 .orElseThrow(() -> new RuntimeException("Person not found"));

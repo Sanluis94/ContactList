@@ -1,86 +1,80 @@
-API REST PARA CONTROLE DE CONTATOS
+REST API FOR CONTACT MANAGEMENT
 
+Project Description
 
-*Descrição do Projeto*
+This is a REST API developed in Java with Spring Boot to manage the registration of People and their Contacts. The API allows performing CRUD operations on both entities.
 
+Features
 
-Esta é uma API REST desenvolvida em Java com Spring Boot para gerenciar o cadastro de Pessoas e seus Contatos. A API permite realizar operações CRUD em ambas as entidades.
+Person:
 
+Create Person (POST /api/people)
 
-*Funcionalidades*
+Get Person by ID (GET /api/people/{id})
 
+Get Person for Direct Mail (GET /api/people/mailing/{id})
 
-* Pessoa:
+List All People (GET /api/people)
 
-Criar Pessoa (POST /api/pessoas)
+Update Person (PUT /api/people/{id})
 
-Obter Pessoa por ID (GET /api/pessoas/{id})
+Delete Person (DELETE /api/people/{id})
 
-Obter Pessoa para Mala Direta (GET /api/pessoas/maladireta/{id})
+Contact:
 
-Listar Pessoas (GET /api/pessoas)
+Add Contact (POST /api/contacts/)
 
-Atualizar Pessoa (PUT /api/pessoas/{id})
+Get Contact by ID (GET /api/contacts/{id})
 
-Deletar Pessoa (DELETE /api/pessoas/{id})
+List All Contacts of a Person (GET /api/contacts/person/{idPerson})
 
-* Contato:
+Update Contact (PUT /api/contacts/{id})
 
-Adicionar Contato (POST /api/contatos/)
+Delete Contact (DELETE /api/contacts/{id})
 
-Obter Contato (GET /api/contatos/{id})
+Technologies Used
 
-Listar Contatos de uma Pessoa (GET /api/contatos/pessoa/{idPessoa})
+Java 21
 
-Atualizar Contato (PUT /api/contatos/{id})
+Spring Boot 3.4.2
 
-Deletar Contato (DELETE /api/contatos/{id})
+Spring Data JPA (Hibernate)
 
+Database: H2
 
-*Tecnologias Utilizadas*
+Swagger OpenAPI for Documentation
 
+Installation and Execution
 
-*Java 21
+Clone the Repository
 
-*Spring Boot 3.4.2
+git clone https://github.com/Sanluis94/ContactList.git
+cd yourrepository
 
-*Spring Data JPA (Hibernate)
+Configure the Database
 
-*Banco de Dados: H2
+By default, the application is configured to use an in-memory H2 database. If needed, update the application.properties file with the following settings:
 
-*Swagger OpenAPI para Documentação
-
-
-*Instalação e Execução*
-
-
-1. Clonar o Repositório
-
-git clone https://github.com/seuusuario/seurepositorio.git
-cd seurepositorio
-
-2. Configurar o Banco de Dados
-
-No arquivo application.properties, configure os dados do banco:
-
-spring.datasource.url=jdbc:mysql://localhost:3306/seubanco
-spring.datasource.username=root
-spring.datasource.password=1234
+spring.datasource.url=jdbc:h2:mem:contacts
+spring.datasource.username=sa
+spring.datasource.password=
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 
-3. Rodar a Aplicação
+Run the Application
 
 mvn spring-boot:run
 
-A API estará disponível em http://localhost:8080.
+The API will be available at http://localhost:8082.
 
-Documentação da API (Swagger)
+API Documentation (Swagger)
 
-A documentação pode ser acessada em:
+The API documentation can be accessed at:
 
-http://localhost:8080/swagger-ui.html
+http://localhost:8082/swagger-ui.html
 
-Testes Automatizados
+Running Automated Tests
 
-Para executar os testes:
+To run the tests:
+
+mvn test
