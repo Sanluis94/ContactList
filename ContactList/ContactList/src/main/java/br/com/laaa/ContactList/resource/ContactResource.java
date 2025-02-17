@@ -1,5 +1,3 @@
 package br.com.laaa.ContactList.resource;
 
-public class ContactResource {
-
-}
+public record ContactResource(Long id, int contactType, String contact) {}
