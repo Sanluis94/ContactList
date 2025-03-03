@@ -10,7 +10,7 @@ public class Contact {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int contactType;
+    private Integer contactType;
     private String contact;
 
     @ManyToOne

@@ -12,10 +12,10 @@ import br.com.laaa.ContactList.model.Person;
  * Uses MapStruct for automatic mapping.
  */
 @Mapper(componentModel = "spring")
+
 public interface PersonMapper {
 	
     PersonDTO toDTO(Person person);
     Person toEntity(PersonDTO personDTO);
 }
-
 

@@ -1,6 +1,5 @@
 package br.com.laaa.ContactList.model;
 
-
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -14,12 +13,16 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String address;
+    private String email;
+    private String phone;
     private String zipCode;
+    private String address;
     private String city;
     private String state;
+    private Boolean active;
+    private Integer contactType;
 
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Contact> contacts;
 
 	public Long getId() {
@@ -38,12 +41,20 @@ public class Person {
 		this.name = name;
 	}
 
-	public String getAddress() {
-		return address;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	public String getZipCode() {
@@ -52,6 +63,14 @@ public class Person {
 
 	public void setZipCode(String zipCode) {
 		this.zipCode = zipCode;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	public String getCity() {
@@ -70,6 +89,22 @@ public class Person {
 		this.state = state;
 	}
 
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
+
+	public Integer getContactType() {
+		return contactType;
+	}
+
+	public void setContactType(Integer contactType) {
+		this.contactType = contactType;
+	}
+
 	public List<Contact> getContacts() {
 		return contacts;
 	}
@@ -78,7 +113,5 @@ public class Person {
 		this.contacts = contacts;
 	}
 
-    
+
 }
-
-

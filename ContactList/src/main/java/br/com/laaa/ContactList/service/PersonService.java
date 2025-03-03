@@ -1,11 +1,16 @@
 package br.com.laaa.ContactList.service;
 
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
 import br.com.laaa.ContactList.DTO.PersonDTO;
 import br.com.laaa.ContactList.Mapper.PersonMapper;
+import br.com.laaa.ContactList.model.Contact;
 import br.com.laaa.ContactList.model.Person;
+import br.com.laaa.ContactList.repository.ContactRepository;
 import br.com.laaa.ContactList.repository.PersonRepository;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,15 +23,13 @@ import java.util.stream.Collectors;
 public class PersonService {
     private final PersonRepository personRepository;
     private final PersonMapper personMapper;
+	private final ContactRepository contactRepository;
+	private Person person;
 
-    public PersonService(PersonRepository personRepository, PersonMapper personMapper) {
+    public PersonService(PersonRepository personRepository, PersonMapper personMapper, ContactRepository contactRepository) {
         this.personRepository = personRepository;
         this.personMapper = personMapper;
-    }
-
-    public PersonDTO createPerson(PersonDTO personDTO) {
-        Person person = personMapper.toEntity(personDTO);
-        return personMapper.toDTO(personRepository.save(person));
+        this.contactRepository = contactRepository;
     }
 
     public PersonDTO getPersonById(Long id) {
@@ -41,14 +44,54 @@ public class PersonService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
+    public PersonDTO createPerson(PersonDTO personDTO) {
+        if (personDTO.name() == null || personDTO.email() == null || personDTO.phone() == null) {
+            throw new IllegalArgumentException("Campos obrigatórios não preenchidos");
+        }
+
+        person = personMapper.toEntity(personDTO);
+
+        person = personRepository.save(person);
+
+        if (personDTO.contacts() != null) {
+            personDTO.contacts().forEach(contactDTO -> {
+                Contact contact = new Contact();
+                contact.setContact(contactDTO.contact());
+                contact.setContactType(contactDTO.contactType());
+                contact.setPerson(person);
+                contactRepository.save(contact);
+            });
+        }
+
+        return personMapper.toDTO(person);
+    }
+
+
+    @Transactional
     public PersonDTO updatePerson(Long id, PersonDTO personDTO) {
-        Person person = personRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Person not found"));
+        person = personRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Person not found"));
+        
         person.setName(personDTO.name());
         person.setAddress(personDTO.address());
         person.setZipCode(personDTO.zipCode());
         person.setCity(personDTO.city());
         person.setState(personDTO.state());
+
+        if (personDTO.contacts() != null) {
+           
+            contactRepository.deleteByPerson(person);
+            
+            personDTO.contacts().forEach(contactDTO -> {
+                Contact contact = new Contact();
+                contact.setContact(contactDTO.contact());
+                contact.setContactType(contactDTO.contactType());
+                contact.setPerson(person); 
+                contactRepository.save(contact);
+            });
+        }
+        
         return personMapper.toDTO(personRepository.save(person));
     }
 

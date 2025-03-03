@@ -10,7 +10,7 @@ import br.com.laaa.ContactList.model.Contact;
  * Mapper interface responsible for converting Contact entities to DTOs and vice versa.
  * Uses MapStruct for automatic mapping.
  */
-@Mapper(componentModel = "spring", uses = br.com.laaa.ContactList.service.ContactService.class)
+@Mapper(componentModel = "spring")
 public interface ContactMapper {
     
     @Mapping(source = "person.id", target = "personId")

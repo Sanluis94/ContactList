@@ -11,6 +11,7 @@ import br.com.laaa.ContactList.model.Contact;
 import br.com.laaa.ContactList.model.Person;
 import br.com.laaa.ContactList.repository.ContactRepository;
 import br.com.laaa.ContactList.repository.PersonRepository;
+import jakarta.persistence.EntityNotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,15 +32,16 @@ public class ContactService {
     @Autowired
     private ContactMapper contactMapper;
     
-	@Transactional
+    @Transactional
     public ContactDTO createContact(ContactDTO contactDTO) {
         Person person = personRepository.findById(contactDTO.personId())
-                .orElseThrow(() -> new RuntimeException("Person not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Person not found"));
 
         Contact contact = contactMapper.toEntity(contactDTO);
-        contact.setPerson(person);
+        contact.setPerson(person); 
         return contactMapper.toDTO(contactRepository.save(contact));
     }
+
 
     public List<ContactDTO> getAllContacts() {
         return contactRepository.findAll().stream()

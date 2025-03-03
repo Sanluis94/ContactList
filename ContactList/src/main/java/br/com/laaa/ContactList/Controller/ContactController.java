@@ -6,6 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import br.com.laaa.ContactList.DTO.ContactDTO;
+import br.com.laaa.ContactList.model.Contact;
+import br.com.laaa.ContactList.model.Person;
+import br.com.laaa.ContactList.repository.PersonRepository;
 import br.com.laaa.ContactList.service.ContactService;
 
 import java.util.List;
@@ -17,20 +20,29 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/contacts")
 @Tag(name = "Contacts", description = "Endpoints for managing contacts")
+@CrossOrigin(origins = "http://localhost:4200") // Permite requisições do Angular
 public class ContactController {
 
     private final ContactService contactService;
+    private final PersonRepository personRepository;
 
-    public ContactController(ContactService contactService) {
+    public ContactController(ContactService contactService, PersonRepository personRepository) {
         this.contactService = contactService;
+        this.personRepository = personRepository;
     }
 
     @PostMapping
     @Operation(summary = "Create a new contact")
     public ResponseEntity<String> createContact(@RequestBody ContactDTO contactDTO) {
+        Person person = personRepository.findById(contactDTO.personId()).orElseThrow(() -> new RuntimeException("Person not found"));
+        Contact contact = new Contact();
+        contact.setContact(contactDTO.contact());
+        contact.setContactType(contactDTO.contactType());
+        contact.setPerson(person);
         contactService.createContact(contactDTO);
         return ResponseEntity.ok("Contact created successfully!");
     }
+
 
     @GetMapping("/{id}")
     @Operation(summary = "Get a contact by ID")
